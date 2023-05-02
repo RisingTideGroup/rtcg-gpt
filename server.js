@@ -56,10 +56,13 @@ Name: ${botName}
     content: 'We are in a role-playing game. Adopt the persona with 100% commitment. Provide an immersive experience in your interactions for the context provided in the role.',
   };
 
-  const initialUserMessage = {
+  const aiBotInitPrompt = {
     role: 'user',
     content: instruction,
   };
+
+  const initReply = await invokeAIWebRequest(aiBotInitPrompt);
+  const initialUserMessage = initReply.choices[0].message
 
   const initialMessages = [initialSystemMessage, initialUserMessage];
 
