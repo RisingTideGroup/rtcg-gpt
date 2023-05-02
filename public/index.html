@@ -63,66 +63,71 @@
         <button type="submit">Send</button>
     </form>
 
-    <script>
-        const initForm = document.getElementById('init-form');
-        const chatForm = document.getElementById('chat-form');
-        const chatContainer = document.getElementById('chat-container');
-        const userMessageInput = document.getElementById('user-message');
-        const intro = document.getElementById('intro');
-        const botNameInput = document.getElementById('bot-name');
+   <script>
+  const chatContainer = document.getElementById('chat-container');
+  const initButton = document.getElementById('init-button');
+  const chatForm = document.getElementById('chat-form');
+  const userMessageInput = document.getElementById('user-message-input');
+  let chatMessages = [];
+  let aiInstruction = '';
 
-        let chatMessages = [];
+  initButton.addEventListener('click', initBot);
 
-        initForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const botName = botNameInput.value;
+  async function initBot() {
+    const botName = botNameInput.value;
+    botNameInput.value = '';
 
-            const response = await fetch('/init', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ botName }),
-            });
+    const initResponse = await fetch('/init', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ botName }),
+    });
 
-            const data = await response.json();
-            const aiInstruction = data.aiInstruction;
-            intro.innerHTML = `<p><strong>Introduction:</strong> ${aiInstruction}</p>`;
-            intro.style.display = 'block';
+    const initData = await initResponse.json();
+    chatMessages = initData.initialMessages;
 
-            initForm.style.display = 'none';
-            chatForm.style.display = 'block';
-            chatContainer.style.display = 'block';
-        });
+    // Display the instruction message in the chat window
+    const instructionElement = document.createElement('div');
+    instructionElement.classList.add('instruction');
+    instructionElement.textContent = initData.initialMessages[1].content;
+    chatContainer.appendChild(instructionElement);
 
-        chatForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const userMessage = userMessageInput.value;
-            userMessageInput.value = '';
+    // Show chat elements and hide init elements
+    chatElements.style.display = 'block';
+    initElements.style.display = 'none';
+  }
 
-            chatMessages.push({ role: 'user', content: userMessage });
+  chatForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const userMessage = userMessageInput.value;
+    userMessageInput.value = '';
 
-            const response = await fetch('/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chatMessages }),
-            });
+    chatMessages.push({ role: 'user', content: userMessage });
 
-            const data = await response.json();
-            const botMessage = data.botMessage;
-            chatMessages.push({ role: 'bot', content: botMessage });
+    const response = await fetch('/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chatMessages }),
+    });
 
-            const userMessageElement = document.createElement('div');
-            userMessageElement.classList.add('message', 'user');
-            userMessageElement.textContent = userMessage;
-            chatContainer.appendChild(userMessageElement);
+    const data = await response.json();
+    const botMessage = data.botMessage;
 
-            const botMessageElement = document.createElement('div');
-            botMessageElement.classList.add('message', 'bot');
-            botMessageElement.textContent = botMessage;
-            chatContainer.appendChild(botMessageElement);
+    chatMessages.push({ role: 'assistant', content: botMessage });
 
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        });
-    </script>
+    const userMessageElement = document.createElement('div');
+    userMessageElement.classList.add('message', 'user');
+    userMessageElement.textContent = userMessage;
+    chatContainer.appendChild(userMessageElement);
+
+    const botMessageElement = document.createElement('div');
+    botMessageElement.classList.add('message', 'bot');
+    botMessageElement.textContent = botMessage;
+    chatContainer.appendChild(botMessageElement);
+
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+  });
+</script>
 </body>
 </html>
 
