@@ -71,7 +71,6 @@
   const initButton = document.getElementById('init-button');
   const chatForm = document.getElementById('chat-form');
   const botNameInput = document.getElementById('bot-name');
-  const userMessageInput = document.getElementById('user-message-input');
   const introElements = document.getElementById('intro');
   let chatMessages = [];
   let aiInstruction = '';
@@ -80,7 +79,17 @@
 
   async function initBot() {
     const botName = botNameInput.value;
-    botNameInput.value = '';
+    initElements.style.display = 'none';
+    // botNameInput.value = '';
+
+    // indicate initialization
+    const instructionElement = document.createElement('div');
+    instructionElement.classList.add('instruction');
+    instructionElement.textContent = "Pending AI Initialization... Please Wait ...";
+    chatContainer.appendChild(instructionElement);
+
+    // Show chat elements and hide init elements
+    chatContainer.style.display = 'block';
 
     const initResponse = await fetch('/init', {
       method: 'POST',
@@ -91,19 +100,16 @@
     const initData = await initResponse.json();
     chatMessages = initData.initialMessages;
 
-    // Display the instruction message in the chat window
-    const instructionElement = document.createElement('div');
-    instructionElement.classList.add('instruction');
     instructionElement.textContent = initData.initialMessages[1].content;
-    chatContainer.appendChild(instructionElement);
 
     // Show chat elements and hide init elements
-    chatContainer.style.display = 'block';
-    initElements.style.display = 'none';
+    //chatContainer.style.display = 'block';
+    
   }
 
   chatForm.addEventListener('submit', async (event) => {
     event.preventDefault();
+    const userMessageInput = document.getElementById('user-message-input');
     const userMessage = userMessageInput.value;
     userMessageInput.value = '';
 
