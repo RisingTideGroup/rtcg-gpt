@@ -51,11 +51,13 @@
 </head>
 <body>
     <h1>Node.js Chatbot</h1>
+    <div id="init-container">
     <form id="init-form">
         <label for="bot-name">Enter the name of the bot:</label>
         <input type="text" id="bot-name" name="bot-name" required>
         <button id="init-button">Initialize</button>
     </form>
+    </div>
     <div id="intro" style="display: none;"></div>
     <div id="chat-container" class="chat-container" style="display: none;"></div>
     <form id="chat-form">
@@ -65,10 +67,12 @@
 
    <script>
   const chatContainer = document.getElementById('chat-container');
+  const initElements = document.getElementById('init-container');
   const initButton = document.getElementById('init-button');
   const chatForm = document.getElementById('chat-form');
   const botNameInput = document.getElementById('bot-name');
   const userMessageInput = document.getElementById('user-message-input');
+  const introElements = document.getElementById('intro');
   let chatMessages = [];
   let aiInstruction = '';
 
@@ -94,7 +98,7 @@
     chatContainer.appendChild(instructionElement);
 
     // Show chat elements and hide init elements
-    chatElements.style.display = 'block';
+    chatContainer.style.display = 'block';
     initElements.style.display = 'none';
   }
 
