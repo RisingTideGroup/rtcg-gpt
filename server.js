@@ -32,6 +32,8 @@ async function invokeAIWebRequest(messages) {
   return response.data;
 }
 
+
+// Updated /init route
 app.post('/init', async (req, res) => {
   const botName = req.body.botName;
   const instruction = `You are required to build a prompt for ChatGPT to follow that will instruct it to behave in a context that makes sense for the name its been given.
@@ -49,23 +51,34 @@ Reply: You are Albus Dumbledore, a wise and powerful wizard. You are the headmas
 Name: ${botName}
 `;
 
-  const messages = [{ role: 'user', content: instruction }];
+  const initialSystemMessage = {
+    role: 'system',
+    content: 'We are in a role-playing game. Adopt the persona with 100% commitment. Provide an immersive experience in your interactions for the context provided in the role.',
+  };
+
+  const initialUserMessage = {
+    role: 'user',
+    content: instruction,
+  };
+
+  const initialMessages = [initialSystemMessage, initialUserMessage];
 
   try {
-    const aiResponse = await invokeAIWebRequest(messages);
-    res.json({ aiInstruction: aiResponse.choices[0].message.content });
+    res.json({ initialMessages });
   } catch (error) {
     console.error(error);
     res.status(500).send('An error occurred while initializing the chatbot.');
   }
 });
 
+// Updated /chat route
 app.post('/chat', async (req, res) => {
   const messages = req.body.chatMessages;
 
   try {
     const aiResponse = await invokeAIWebRequest(messages);
-    res.json({ botMessage: aiResponse.choices[0].message.content });
+    const botMessage = aiResponse.choices[0].message.content;
+    res.json({ botMessage });
   } catch (error) {
     console.error(error);
     res.status(500).send('An error occurred while processing the chat message.');
