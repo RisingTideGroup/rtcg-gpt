@@ -1,2 +1,4 @@
 # rtcg-gpt
 Rising Tide Consulting Web ChatGPT
+
+A web chat powered by OpenAI Chat-GPT models, to provide a live web experience of the powershell script from poshgpt.
