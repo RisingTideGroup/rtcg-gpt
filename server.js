@@ -6,7 +6,8 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(express.static('.'));
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.post('/chat', async (req, res) => {
     const { userName, botName, message } = req.body;
