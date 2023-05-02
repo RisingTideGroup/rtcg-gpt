@@ -74,4 +74,16 @@ function openModal() {
 }
 
 // Close modal function
-function closeModal
+function closeModal() {
+  modal.style.display = 'none';
+}
+
+// Close modal when user clicks outside of it
+function outsideClick(e) {
+  if (e.target == modal) {
+    closeModal();
+  }
+}
+
+// Populate persona buttons
+populatePersonaButtons();
