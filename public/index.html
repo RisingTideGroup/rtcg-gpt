@@ -4,44 +4,125 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Node.js Chatbot</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 80vh;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .user {
+            align-self: flex-end;
+            background-color: #007BFF;
+            color: white;
+        }
+
+        .bot {
+            background-color: #f1f1f1;
+            color: black;
+        }
+
+        #init-form {
+            margin-bottom: 20px;
+        }
+
+        #chat-form {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <h1>Node.js Chatbot</h1>
+    <form id="init-form">
+        <label for="bot-name">Enter the name of the bot:</label>
+        <input type="text" id="bot-name" name="bot-name" required>
+        <button type="submit">Initialize</button>
+    </form>
+    <div id="intro" style="display: none;"></div>
+    <div id="chat-container" class="chat-container" style="display: none;"></div>
     <form id="chat-form">
-        <label for="user-name">Your Name:</label>
-        <input type="text" id="user-name" required>
-        <br>
-        <label for="bot-name">Bot Name:</label>
-        <input type="text" id="bot-name" required>
-        <br>
-        <label for="message">Message:</label>
-        <input type="text" id="message" required>
-        <br>
+        <input type="text" id="user-message" name="user-message" placeholder="Type your message..." required>
         <button type="submit">Send</button>
     </form>
-    <div id="chat-messages">
-    </div>
+
     <script>
-        document.getElementById('chat-form').addEventListener('submit', async (event) => {
+        const initForm = document.getElementById('init-form');
+        const chatForm = document.getElementById('chat-form');
+        const chatContainer = document.getElementById('chat-container');
+        const userMessageInput = document.getElementById('user-message');
+        const intro = document.getElementById('intro');
+        const botNameInput = document.getElementById('bot-name');
+
+        let chatMessages = [];
+
+        initForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-            const userName = document.getElementById('user-name').value;
-            const botName = document.getElementById('bot-name').value;
-            const message = document.getElementById('message').value;
-            
-            const response = await fetch('/chat', {
+            const botName = botNameInput.value;
+
+            const response = await fetch('/init', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ userName, botName, message }),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ botName }),
             });
 
-            const result = await response.json();
-            const chatMessages = document.getElementById('chat-messages');
-            const messageElement = document.createElement('div');
-            messageElement.textContent = `${botName}: ${result.aiReply}`;
-            chatMessages.appendChild(messageElement);
+            const data = await response.json();
+            const aiInstruction = data.aiInstruction;
+            intro.innerHTML = `<p><strong>Introduction:</strong> ${aiInstruction}</p>`;
+            intro.style.display = 'block';
+
+            initForm.style.display = 'none';
+            chatForm.style.display = 'block';
+            chatContainer.style.display = 'block';
+        });
+
+        chatForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const userMessage = userMessageInput.value;
+            userMessageInput.value = '';
+
+            chatMessages.push({ role: 'user', content: userMessage });
+
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chatMessages }),
+            });
+
+            const data = await response.json();
+            const botMessage = data.botMessage;
+            chatMessages.push({ role: 'bot', content: botMessage });
+
+            const userMessageElement = document.createElement('div');
+            userMessageElement.classList.add('message', 'user');
+            userMessageElement.textContent = userMessage;
+            chatContainer.appendChild(userMessageElement);
+
+            const botMessageElement = document.createElement('div');
+            botMessageElement.classList.add('message', 'bot');
+            botMessageElement.textContent = botMessage;
+            chatContainer.appendChild(botMessageElement);
+
+            chatContainer.scrollTop = chatContainer.scrollHeight;
         });
     </script>
 </body>
 </html>
+
