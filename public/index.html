@@ -58,12 +58,14 @@
         <button id="init-button">Initialize</button>
     </form>
     </div>
+    <div id="chat-elements">
     <div id="intro" style="display: none;"></div>
     <div id="chat-container" class="chat-container" style="display: none;"></div>
     <form id="chat-form">
         <input type="text" id="user-message" name="user-message" placeholder="Type your message..." required>
         <button type="submit">Send</button>
     </form>
+    </div>
 
    <script>
   const chatContainer = document.getElementById('chat-container');
@@ -90,6 +92,7 @@
 
     // Show chat elements and hide init elements
     chatContainer.style.display = 'block';
+    chatForm.style.display = 'block';
 
     const initResponse = await fetch('/init', {
       method: 'POST',
@@ -109,7 +112,7 @@
 
   chatForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const userMessageInput = document.getElementById('user-message-input');
+    let userMessageInput = document.getElementById('user-message');
     const userMessage = userMessageInput.value;
     userMessageInput.value = '';
 
