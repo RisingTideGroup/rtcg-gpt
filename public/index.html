@@ -54,7 +54,7 @@
     <form id="init-form">
         <label for="bot-name">Enter the name of the bot:</label>
         <input type="text" id="bot-name" name="bot-name" required>
-        <button type="submit">Initialize</button>
+        <button id="init-button">Initialize</button>
     </form>
     <div id="intro" style="display: none;"></div>
     <div id="chat-container" class="chat-container" style="display: none;"></div>
@@ -67,6 +67,7 @@
   const chatContainer = document.getElementById('chat-container');
   const initButton = document.getElementById('init-button');
   const chatForm = document.getElementById('chat-form');
+  const botNameInput = documnet.getElementById('bot-name');
   const userMessageInput = document.getElementById('user-message-input');
   let chatMessages = [];
   let aiInstruction = '';
