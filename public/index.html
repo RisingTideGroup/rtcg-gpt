@@ -1,32 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ChatGPT</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="chat-container">
-      <div class="messages"></div>
-      <div class="input-container">
-        <input type="text" placeholder="Type your message..." />
-        <button id="send-btn">Send</button>
-        <button id="new-chat-btn">New Chat</button>
-      </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js Chatbot</title>
+</head>
+<body>
+    <h1>Node.js Chatbot</h1>
+    <form id="chat-form">
+        <label for="user-name">Your Name:</label>
+        <input type="text" id="user-name" required>
+        <br>
+        <label for="bot-name">Bot Name:</label>
+        <input type="text" id="bot-name" required>
+        <br>
+        <label for="message">Message:</label>
+        <input type="text" id="message" required>
+        <br>
+        <button type="submit">Send</button>
+    </form>
+    <div id="chat-messages">
     </div>
+    <script>
+        document.getElementById('chat-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const userName = document.getElementById('user-name').value;
+            const botName = document.getElementById('bot-name').value;
+            const message = document.getElementById('message').value;
+            
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userName, botName, message }),
+            });
 
-    <div class="settings-container">
-      <button id="persona-btn">Choose Persona</button>
-    </div>
-
-    <div id="persona-modal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="persona-buttons"></div>
-      </div>
-    </div>
-
-    <script src="script.js"></script>
-  </body>
+            const result = await response.json();
+            const chatMessages = document.getElementById('chat-messages');
+            const messageElement = document.createElement('div');
+            messageElement.textContent = `${botName}: ${result.aiReply}`;
+            chatMessages.appendChild(messageElement);
+        });
+    </script>
+</body>
 </html>
