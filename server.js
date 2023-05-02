@@ -61,7 +61,7 @@ Name: ${botName}
     content: instruction,
   };
 
-  const initReply = await invokeAIWebRequest(aiBotInitPrompt);
+  const initReply = await invokeAIWebRequest([aiBotInitPrompt]);
   const initialUserMessage = initReply.choices[0].message
 
   const initialMessages = [initialSystemMessage, initialUserMessage];
@@ -80,7 +80,7 @@ app.post('/chat', async (req, res) => {
 
   try {
     const aiResponse = await invokeAIWebRequest(messages);
-    const botMessage = aiResponse.choices[0].message.content;
+    const botMessage = aiResponse.choices[0].message;
     res.json({ botMessage });
   } catch (error) {
     console.error(error);
