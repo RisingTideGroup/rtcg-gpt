@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ChatGPT Page</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">
+      <h1>ChatGPT</h1>
+      <p>powered by OpenAI</p>
+    </div>
+    <div class="chat-body">
+      <div class="messages"></div>
+    </div>
+    <div class="chat-footer">
+      <input type="text" placeholder="Type your message here...">
+      <button id="send-btn">Send</button>
+      <button id="new-chat-btn">New Chat</button>
+    </div>
+  </div>
+
+  <button id="persona-btn">Choose Persona</button>
+
+  <div id="persona-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Choose Persona</h2>
+      <div class="persona-buttons"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
