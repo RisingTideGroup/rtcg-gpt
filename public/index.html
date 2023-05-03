@@ -101,6 +101,43 @@
         label {
             font-weight: bold;
         }
+        
+        #user-message {
+          background-color: #F4F4F8;
+          border: 1px solid #D3D3D3;
+          border-radius: 20px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          color: #000;
+          font-family: 'Helvetica Neue', sans-serif;
+          font-size: 16px;
+          padding: 12px 20px;
+          width: calc(100% - 80px); /* subtract button width and margin from input width */
+          height: 50px;
+          margin-bottom: 20px;
+          display: inline-block;
+          vertical-align: middle;
+        }
+
+        #user-message:focus {
+          outline: none; /* Remove focus outline */
+        }
+
+        #user-message-btn {
+          background-color: #4A4AFF;
+          border: none;
+          border-radius: 20px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          color: #fff;
+          font-family: 'Helvetica Neue', sans-serif;
+          font-size: 16px;
+          font-weight: bold;
+          margin-left: 10px;
+          height: 50px;
+          width: 60px;
+          vertical-align: middle;
+          display: inline-block;
+        }
+
 
     </style>
 </head>
@@ -125,7 +162,7 @@
     <div id="chat-container" class="chat-container" style="display: none;"></div>
     <form id="chat-form">
         <input type="text" id="user-message" name="user-message" placeholder="Type your message..." required>
-        <button type="submit">Send</button>
+        <button type="submit" id="user-message-btn">Send</button>
     </form>
     </div>
 
