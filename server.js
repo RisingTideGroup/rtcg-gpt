@@ -58,7 +58,7 @@ Name: ${botName}
 
   const aiBotInitPrompt = {
     role: 'user',
-    content: instruction,
+    content: instruction.replace('Reply: ', 'Persona: ')
   };
 
   const initReply = await invokeAIWebRequest([aiBotInitPrompt]);
