@@ -78,10 +78,11 @@
             justify-content: center;
             align-items: center;
             background-color: #f8f9fa;
+            width: 100%;
         }
 
         .container {
-            max-width: 500px;
+            max-width: 100%;
             background-color: white;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
             border-radius: 5px;
@@ -152,7 +153,7 @@
     chatContainer.appendChild(instructionElement);
 
     // Show chat elements and hide init elements
-    chatContainer.style.display = 'block';
+    chatContainer.style.display = 'flex';
     chatForm.style.display = 'block';
 
     const initResponse = await fetch('/init', {
