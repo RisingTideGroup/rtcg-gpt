@@ -22,6 +22,7 @@ async function invokeAIWebRequest(messages, model) {
   };
 
   if (model == CHAT_MODEL) {
+    console.log("Chat model info")
     const endpoint = `${OPENAI_API_BASE_URL}/chat/completions`
     const body = {
     model: model,
@@ -31,6 +32,7 @@ async function invokeAIWebRequest(messages, model) {
     n: 1,
   }
 } else if (model == IMAGE_MODEL) {
+  console.log("Image model info")
   const endpoint = `${OPENAI_API_BASE_URL}/images/generations`
   const body = {
     prompt: messages,
