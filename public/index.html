@@ -223,6 +223,12 @@
     userMessageElement.textContent = userMessage;
     chatContainer.appendChild(userMessageElement);
 
+    const botMessageElement = document.createElement('div');
+    botMessageElement.classList.add('message', 'bot');  
+    botMessageElement.textContent = "<i>... Please Wait ...<i>"
+    chatContainer.appendChild(botMessageElement);
+     
+      
     const response = await fetch('/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -234,11 +240,8 @@
 
     chatMessages.push(botMessage);
 
-    const botMessageElement = document.createElement('div');
-    botMessageElement.classList.add('message', 'bot');
     botMessageElement.textContent = botMessage.content;
-    chatContainer.appendChild(botMessageElement);
-
+      
     chatContainer.scrollTop = chatContainer.scrollHeight;
   });
 </script>
