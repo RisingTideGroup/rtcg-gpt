@@ -20,7 +20,9 @@ async function invokeAIWebRequest(messages, model) {
     'Authorization': `Bearer ${OPENAI_API_KEY}`,
     'Content-Type': 'application/json',
   };
-
+  let endpoint;
+  let body;
+  
   if (model == CHAT_MODEL) {
     console.log("Chat model info")
     const endpoint = `${OPENAI_API_BASE_URL}/chat/completions`
