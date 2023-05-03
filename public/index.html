@@ -136,9 +136,39 @@
           width: 60px;
           vertical-align: middle;
           display: inline-block;
-          margin-top: -20px; 
         }
 
+      .message-wrapper {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .sender-name, .bot-name {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .profile-pic {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+        object-fit: cover;
+      }
+
+      .initial {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #007BFF;
+        margin-right: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-weight: bold;
+      }
 
     </style>
 </head>
@@ -183,6 +213,7 @@
 
   async function initBot() {
     const botName = botNameInput.value;
+    const userName = senderNameInput.value;
     initElements.style.display = 'none';
     // botNameInput.value = '';
 
@@ -218,15 +249,62 @@
 
     chatMessages.push({ role: 'user', content: userMessage });
       
-    const userMessageElement = document.createElement('div');
+    /* const userMessageElement = document.createElement('div');
     userMessageElement.classList.add('message', 'user');
     userMessageElement.textContent = userMessage;
     chatContainer.appendChild(userMessageElement);
-
+    
     const botMessageElement = document.createElement('div');
     botMessageElement.classList.add('message', 'bot');  
     botMessageElement.textContent = "... Please Wait ..."
     chatContainer.appendChild(botMessageElement);
+    */
+
+    // New Code testing
+    const userMessageWrapper = document.createElement('div');
+    userMessageWrapper.classList.add('message-wrapper', 'user');
+
+    const userNameHeader = document.createElement('div');
+    userNameHeader.classList.add('sender-name');
+    userNameHeader.textContent = userName;
+    userMessageWrapper.appendChild(userNameHeader);
+
+    const userMessageElement = document.createElement('div');
+    userMessageElement.classList.add('message', 'user');
+    userMessageElement.textContent = userMessage;
+    userMessageWrapper.appendChild(userMessageElement);
+
+    const userInitial = document.createElement('div');
+    userInitial.classList.add('initial');
+    userInitial.textContent = userName.toUpperCase();
+    userMessageWrapper.insertBefore(userInitial, userNameHeader);
+
+    chatContainer.appendChild(userMessageWrapper);
+
+
+    const botMessageWrapper = document.createElement('div');
+    botMessageWrapper.classList.add('message-wrapper', 'bot');
+
+    const botNameHeader = document.createElement('div');
+    botNameHeader.classList.add('bot-name');
+    botNameHeader.textContent = botName;
+    botMessageWrapper.appendChild(botNameHeader);
+
+    const botMessageElement = document.createElement('div');
+    botMessageElement.classList.add('message', 'bot');
+    botMessageElement.textContent = "... Please Wait ...";
+    botMessageWrapper.appendChild(botMessageElement);
+
+    const botProfilePic = document.createElement('img');
+    botProfilePic.classList.add('profile-pic');
+    botProfilePic.src = profilePic;
+    botMessageWrapper.insertBefore(botProfilePic, botNameHeader);
+
+    chatContainer.appendChild(botMessageWrapper);
+
+    // End new code testing.
+
+
      
       
     const response = await fetch('/chat', {
