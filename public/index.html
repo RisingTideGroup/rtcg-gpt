@@ -217,6 +217,11 @@
     userMessageInput.value = '';
 
     chatMessages.push({ role: 'user', content: userMessage });
+      
+    const userMessageElement = document.createElement('div');
+    userMessageElement.classList.add('message', 'user');
+    userMessageElement.textContent = userMessage;
+    chatContainer.appendChild(userMessageElement);
 
     const response = await fetch('/chat', {
       method: 'POST',
@@ -228,11 +233,6 @@
     const botMessage = data.botMessage;
 
     chatMessages.push(botMessage);
-
-    const userMessageElement = document.createElement('div');
-    userMessageElement.classList.add('message', 'user');
-    userMessageElement.textContent = userMessage;
-    chatContainer.appendChild(userMessageElement);
 
     const botMessageElement = document.createElement('div');
     botMessageElement.classList.add('message', 'bot');
