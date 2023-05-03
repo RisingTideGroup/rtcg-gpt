@@ -39,7 +39,8 @@ async function invokeAIWebRequest(messages, model) {
 
   }
 };
-
+  console.log("Model is: " + model)
+  console.log("Endpoint is: " + endpoint)
   const response = await axios.post(endpoint, body, { headers: headers });
   return response.data;
 }
