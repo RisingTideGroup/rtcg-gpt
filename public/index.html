@@ -245,6 +245,8 @@
     event.preventDefault();
     let userMessageInput = document.getElementById('user-message');
     const userMessage = userMessageInput.value;
+    const botName = document.getElementById('bot-name').value;
+    const userName = document.getElementById('sender-name').value;
     userMessageInput.value = '';
 
     chatMessages.push({ role: 'user', content: userMessage });
