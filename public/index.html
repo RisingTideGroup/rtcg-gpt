@@ -173,9 +173,11 @@
   const initButton = document.getElementById('init-button');
   const chatForm = document.getElementById('chat-form');
   const botNameInput = document.getElementById('bot-name');
+  const senderNameInput = document.getElementById('sender-name');
   const introElements = document.getElementById('intro');
   let chatMessages = [];
   let aiInstruction = '';
+  let profilePic = '';
 
   initButton.addEventListener('click', initBot);
 
@@ -201,13 +203,11 @@
     });
 
     const initData = await initResponse.json();
-    chatMessages = initData.initialMessages;
+    chatMessages = initData.initialMessages.chat;
+    profilePic = initData.initialMessages.img;
 
-    instructionElement.textContent = initData.initialMessages[1].content;
+    instructionElement.textContent = initData.initialMessages.chat[1].content;
 
-    // Show chat elements and hide init elements
-    //chatContainer.style.display = 'block';
-    
   }
 
   chatForm.addEventListener('submit', async (event) => {

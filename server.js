@@ -11,24 +11,36 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 const OPENAI_API_KEY = process.env.API_KEY;
-const OPENAI_MODEL = 'gpt-3.5-turbo';
+const CHAT_MODEL = 'gpt-3.5-turbo';
+const IMAGE_MODEL = 'DALL-E'
 const OPENAI_API_BASE_URL = 'https://api.openai.com/v1';
 
-async function invokeAIWebRequest(messages) {
+async function invokeAIWebRequest(messages, model) {
   const headers = {
     'Authorization': `Bearer ${OPENAI_API_KEY}`,
     'Content-Type': 'application/json',
   };
 
-  const body = {
-    model: OPENAI_MODEL,
+  if (model == CHAT_MODEL) {
+    const endpoint = `${OPENAI_API_BASE_URL}/chat/completions`
+    const body = {
+    model: model,
     messages: messages,
     max_tokens: 1000,
     temperature: 1,
     n: 1,
-  };
+  }
+} else if (model == IMAGE_MODEL) {
+  const endpoint = `${OPENAI_API_BASE_URL}/images/generations`
+  const body = {
+    prompt: messages,
+    n: 1,
+    size: '256x256'
 
-  const response = await axios.post(`${OPENAI_API_BASE_URL}/chat/completions`, body, { headers: headers });
+  }
+};
+
+  const response = await axios.post(endpoint, body, { headers: headers });
   return response.data;
 }
 
@@ -58,13 +70,25 @@ Name: ${botName}
 
   const aiBotInitPrompt = {
     role: 'user',
-    content: instruction.replace('Reply: ', 'Persona: ')
+    content: instruction
   };
 
-  const initReply = await invokeAIWebRequest([aiBotInitPrompt]);
-  const initialUserMessage = initReply.choices[0].message
 
-  const initialMessages = [initialSystemMessage, initialUserMessage];
+
+  const initReply = await invokeAIWebRequest([aiBotInitPrompt], CHAT_MODEL);
+  const initialUserMessage = {
+    "role": initReply.choices[0].message.role,
+    "content": initReply.choices[0].message.content.replace('Reply: ', 'Persona: ')
+   }
+
+  const profileGenerationPrompt = `Using the following persona description, create a profile picture that depicts the person.
+  ${initialUserMessage.content}
+`;
+
+  const profilePicReply = await invokeAIWebRequest(profileGenerationPrompt, IMAGE_MODEL)
+  const imgUrl = profilePicReply.data[0].url
+  
+  const initialMessages = {"chat": [initialSystemMessage, initialUserMessage], "img": imgUrl };
 
   try {
     res.json({ initialMessages });
@@ -79,7 +103,7 @@ app.post('/chat', async (req, res) => {
   const messages = req.body.chatMessages;
 
   try {
-    const aiResponse = await invokeAIWebRequest(messages);
+    const aiResponse = await invokeAIWebRequest(messages, CHAT_MODEL);
     const botMessage = aiResponse.choices[0].message;
     res.json({ botMessage });
   } catch (error) {
