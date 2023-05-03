@@ -141,19 +141,24 @@
       .user-message-wrapper {
         display: flex;
         align-self: flex-end;
-        align-items: center;
         margin-bottom: 10px;
+        flex-direction: column;
       }
 
       .bot-message-wrapper {
         display: flex;
-        align-items: center;
+        flex-direction: column;
         margin-bottom: 10px;
-      }      
+      }
+
+      .sender-name {
+        align-self: flex-end;
+      }
 
       .sender-name, .bot-name {
         font-weight: bold;
         margin-bottom: 5px;
+        display: flex;
       }
 
       .profile-pic {
@@ -227,7 +232,7 @@
     // indicate initialization
     const instructionElement = document.createElement('div');
     instructionElement.classList.add('message', 'instruction');
-    instructionElement.textContent = "Pending AI Initialization... Please Wait ...";
+    instructionElement.textContent = "Generating AI Persona Profile Pic... Please Wait ... This may take a moment";
     chatContainer.appendChild(instructionElement);
 
     // Show chat elements and hide init elements
@@ -265,7 +270,7 @@
     
     const botMessageElement = document.createElement('div');
     botMessageElement.classList.add('message', 'bot');  
-    botMessageElement.textContent = "... Please Wait ..."
+    botMessageElement.textContent = "... Typing ..."
     chatContainer.appendChild(botMessageElement);
     */
 
