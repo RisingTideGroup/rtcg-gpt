@@ -13,5 +13,8 @@ Since this does use your paid AI account, make sure you lock the interface down.
 - Profile pic generation seems to fail when referencing real poeple.
 
 ## Screenshots
+### Main Page
+![image](https://user-images.githubusercontent.com/16570127/235963578-54716212-8fd6-4879-a684-38954f8d2844.png)
 
+### Chat Page
 ![image](https://user-images.githubusercontent.com/16570127/235962987-7aaaa447-fa71-48f1-bea0-85ec6224101d.png)
