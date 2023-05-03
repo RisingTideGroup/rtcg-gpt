@@ -138,11 +138,18 @@
           display: inline-block;
         }
 
-      .message-wrapper {
+      .user-message-wrapper {
         display: flex;
+        align-self: flex-end;
         align-items: center;
         margin-bottom: 10px;
       }
+
+      .bot-message-wrapper {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }      
 
       .sender-name, .bot-name {
         font-weight: bold;
@@ -264,7 +271,7 @@
 
     // New Code testing
     const userMessageWrapper = document.createElement('div');
-    userMessageWrapper.classList.add('message-wrapper', 'user');
+    userMessageWrapper.classList.add('user-message-wrapper');
 
     const userNameHeader = document.createElement('div');
     userNameHeader.classList.add('sender-name');
@@ -278,14 +285,14 @@
 
     const userInitial = document.createElement('div');
     userInitial.classList.add('initial');
-    userInitial.textContent = userName.toUpperCase();
+    userInitial.textContent = userName[0].toUpperCase();
     userMessageWrapper.insertBefore(userInitial, userNameHeader);
 
     chatContainer.appendChild(userMessageWrapper);
 
 
     const botMessageWrapper = document.createElement('div');
-    botMessageWrapper.classList.add('message-wrapper', 'bot');
+    botMessageWrapper.classList.add('bot-message-wrapper');
 
     const botNameHeader = document.createElement('div');
     botNameHeader.classList.add('bot-name');
