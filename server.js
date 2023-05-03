@@ -22,7 +22,7 @@ async function invokeAIWebRequest(messages, model) {
   };
   let endpoint;
   let body;
-  
+
   if (model == CHAT_MODEL) {
     console.log("Chat model info")
     const endpoint = `${OPENAI_API_BASE_URL}/chat/completions`
@@ -33,6 +33,8 @@ async function invokeAIWebRequest(messages, model) {
     temperature: 1,
     n: 1,
   }
+  const response = await axios.post(endpoint, body, { headers: headers });
+  return response.data;
 } else if (model == IMAGE_MODEL) {
   console.log("Image model info")
   const endpoint = `${OPENAI_API_BASE_URL}/images/generations`
@@ -42,11 +44,9 @@ async function invokeAIWebRequest(messages, model) {
     size: '256x256'
 
   }
-};
-  console.log("Model is: " + model)
-  console.log("Endpoint is: " + endpoint)
   const response = await axios.post(endpoint, body, { headers: headers });
   return response.data;
+};
 }
 
 
