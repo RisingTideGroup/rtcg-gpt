@@ -104,14 +104,21 @@
     </style>
 </head>
 <body>
-    <h1>Node.js Chatbot</h1>
-    <div id="init-container">
-    <form id="init-form">
-        <label for="bot-name">Enter the name of the bot:</label>
-        <input type="text" id="bot-name" name="bot-name" required>
-        <button id="init-button" type="button">Initialize</button>
-    </form>
-    </div>
+    <div class="container">
+        <header>Node.js Chatbot</header>
+        <div id="init-container">
+          <form id="init-form">
+            <div class="form-group">
+              <label for="bot-name">Enter the name of the bot:</label>
+              <input type="text" id="bot-name" name="bot-name" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="sender-name">Enter your name:</label>
+              <input type="text" id="sender-name" name="sender-name" class="form-control" required>
+            </div>
+            <button id="init-button" type="button" class="btn btn-primary">Initialize</button>
+          </form>
+        </div>
     <div id="chat-elements">
     <div id="intro" style="display: none;"></div>
     <div id="chat-container" class="chat-container" style="display: none;"></div>
