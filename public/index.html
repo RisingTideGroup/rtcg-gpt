@@ -3,342 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RisingTide Consulting AI Persona</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Rising Tide Group | Service Locked Down</title>
     <style>
+        /* CSS for page styling */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 20px;
-        }
-
-        .chat-container {
-            display: flex;
-            flex-direction: column;
-            height: 80vh;
-            overflow-y: scroll;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        .message {
-            max-width: 90%;
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-
-        .user {
-            align-self: flex-end;
-            background-color: #007BFF;
-            color: white;
-        }
-
-        .bot {
-            background-color: #f1f1f1;
-            color: black;
-        }
-
-        #init-form {
-            margin-bottom: 20px;
-        }
-
-        #chat-form {
-            display: none;
-        }
-
-        .user-message {
-            border: 2px solid #E1E1E1;
-            border-radius: 20px;
-            padding: 10px 15px;
-            font-size: 16px;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
             color: #333;
-            box-shadow: none;
-            outline: none;
-            width: 100%;
-            /*max-width: 400px; */
-            margin: 0 auto;
-            width: auto;
-            max-width: 100%;
-            min-width: 200px; /* minimum width to prevent text from getting too small */
+            margin: 0;
+            padding: 0;
         }
-
-        .instruction {
-            font-style: italic;
-            background: yellow;
-            max-width: 100%;
-            margin-bottom: 20px;
-        }
-
-
-        html, body {
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f8f9fa;
-            width: 100%;
-        }
-
         .container {
-            max-width: 100%;
-            background-color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-            border-radius: 5px;
-            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+        h1 {
+            font-size: 36px;
+            font-weight: bold;
             text-align: center;
+            margin-bottom: 30px;
         }
-
-        header {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #007BFF;
-            text-transform: uppercase;
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+            text-align: center;
+            margin-bottom: 30px;
         }
-
-        label {
-            font-weight: bold;
+        .btn {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out;
         }
-        
-        #user-message {
-          background-color: #F4F4F8;
-          border: 1px solid #D3D3D3;
-          border-radius: 20px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          color: #000;
-          font-family: 'Helvetica Neue', sans-serif;
-          font-size: 16px;
-          padding: 12px 20px;
-          width: calc(100% - 80px); /* subtract button width and margin from input width */
-          height: 50px;
-          margin-bottom: 20px;
-          display: inline-block;
-          vertical-align: middle;
+        .btn:hover {
+            background-color: #3e8e41;
         }
-
-        #user-message:focus {
-          outline: none; /* Remove focus outline */
-        }
-
-        #user-message-btn {
-          background-color: #4A4AFF;
-          border: none;
-          border-radius: 20px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          color: #fff;
-          font-family: 'Helvetica Neue', sans-serif;
-          font-size: 16px;
-          font-weight: bold;
-          margin-left: 10px;
-          height: 50px;
-          width: 60px;
-          vertical-align: middle;
-          display: inline-block;
-        }
-
-      .user-message-wrapper {
-        display: flex;
-        align-self: flex-end;
-        margin-bottom: 10px;
-        flex-direction: column;
-      }
-
-      .bot-message-wrapper {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 10px;
-      }
-
-      .sender-name {
-        align-self: flex-end;
-      }
-
-      .sender-name, .bot-name {
-        font-weight: bold;
-        margin-bottom: 5px;
-        display: flex;
-      }
-
-      .profile-pic {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 10px;
-        object-fit: cover;
-      }
-
-      .initial {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: #007BFF;
-        margin-right: 10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        font-weight: bold;
-        align-self: flex-end;
-      }
-
     </style>
 </head>
 <body>
     <div class="container">
-        <header>RisingTide Consulting AI Persona Chatbot</header>
-        <div id="init-container">
-          <form id="init-form">
-            <div class="form-group">
-              <div class="introduction">Welcome to the AI Persona Chatbot. We will generate a persona and profile picture for you based on the name you provide. Warning, this role-playing may get addictive if you choose a fictional character such as Harry Potter. Otherwise go ahead and describe the bot's personality if you don't want to interact with Darth Vader or Gandalf.</div>
-              <label for="bot-name">Enter the name of the bot:</label>
-              <input type="text" id="bot-name" name="bot-name" class="form-control" required>
-            </div>
-            <div class="form-group">
-              <label for="sender-name">Enter your name:</label>
-              <input type="text" id="sender-name" name="sender-name" class="form-control" required>
-            </div>
-            <button id="init-button" type="button" class="btn btn-primary">Initialize</button>
-          </form>
-        </div>
-    <div id="chat-elements">
-    <div id="intro" style="display: none;"></div>
-    <div id="chat-container" class="chat-container" style="display: none;"></div>
-    <form id="chat-form">
-        <input type="text" id="user-message" name="user-message" placeholder="Type your message..." required>
-        <button type="submit" id="user-message-btn">Send</button>
-    </form>
+        <h1>Rising Tide Group</h1>
+        <p>We're sorry, but our service has been locked down.</p>
+        <p>You have two options:</p>
+        <p>1. Host your own version by downloading the code from our <a href="https://github.com/risingtidegroup/rtcg-gpt" target="_blank">GitHub repository</a>.</p>
+        <p>2. Reach out to <span id="email"></span> to request access at a nominal fee of $8/month USD.</p>
+        <p>Thank you for your understanding.</p>
+        <p><a href="https://github.com/risingtidegroup/rtcg-gpt" target="_blank" class="btn">Download from GitHub</a> <a href="#" class="btn" onclick="location.href='mailto:'+document.getElementById('email').innerHTML;">Request Access</a></p>
     </div>
 
-   <script>
-  const chatContainer = document.getElementById('chat-container');
-  const initElements = document.getElementById('init-container');
-  const initButton = document.getElementById('init-button');
-  const chatForm = document.getElementById('chat-form');
-  const botNameInput = document.getElementById('bot-name');
-  const senderNameInput = document.getElementById('sender-name');
-  const introElements = document.getElementById('intro');
-  let chatMessages = [];
-  let aiInstruction = '';
-  let profilePic = '';
-
-  initButton.addEventListener('click', initBot);
-
-  async function initBot() {
-    const botName = botNameInput.value;
-    const userName = senderNameInput.value;
-    initElements.style.display = 'none';
-    // botNameInput.value = '';
-
-    // indicate initialization
-    const instructionElement = document.createElement('div');
-    instructionElement.classList.add('message', 'instruction');
-    instructionElement.textContent = "Generating AI Persona and Profile Pic... Please Wait ... This may take a moment";
-    chatContainer.appendChild(instructionElement);
-
-    // Show chat elements and hide init elements
-    chatContainer.style.display = 'flex';
-    chatForm.style.display = 'flex';
-
-    const initResponse = await fetch('/init', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ botName }),
-    });
-
-    const initData = await initResponse.json();
-    chatMessages = initData.initialMessages.chat;
-    profilePic = initData.initialMessages.img;
-
-    instructionElement.textContent = initData.initialMessages.chat[1].content;
-
-  }
-
-  chatForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    let userMessageInput = document.getElementById('user-message');
-    const userMessage = userMessageInput.value;
-    const botName = document.getElementById('bot-name').value;
-    const userName = document.getElementById('sender-name').value;
-    userMessageInput.value = '';
-
-    chatMessages.push({ role: 'user', content: userMessage });
-      
-    /* const userMessageElement = document.createElement('div');
-    userMessageElement.classList.add('message', 'user');
-    userMessageElement.textContent = userMessage;
-    chatContainer.appendChild(userMessageElement);
-    
-    const botMessageElement = document.createElement('div');
-    botMessageElement.classList.add('message', 'bot');  
-    botMessageElement.textContent = "... Typing ..."
-    chatContainer.appendChild(botMessageElement);
-    */
-
-    // New Code testing
-    const userMessageWrapper = document.createElement('div');
-    userMessageWrapper.classList.add('user-message-wrapper');
-
-    const userNameHeader = document.createElement('div');
-    userNameHeader.classList.add('sender-name');
-    userNameHeader.textContent = userName;
-    userMessageWrapper.appendChild(userNameHeader);
-
-    const userMessageElement = document.createElement('div');
-    userMessageElement.classList.add('message', 'user');
-    userMessageElement.textContent = userMessage;
-    userMessageWrapper.appendChild(userMessageElement);
-
-    const userInitial = document.createElement('div');
-    userInitial.classList.add('initial');
-    userInitial.textContent = userName[0].toUpperCase();
-    userMessageWrapper.insertBefore(userInitial, userNameHeader);
-
-    chatContainer.appendChild(userMessageWrapper);
-
-
-    const botMessageWrapper = document.createElement('div');
-    botMessageWrapper.classList.add('bot-message-wrapper');
-
-    const botNameHeader = document.createElement('div');
-    botNameHeader.classList.add('bot-name');
-    botNameHeader.textContent = botName;
-    botMessageWrapper.appendChild(botNameHeader);
-
-    const botMessageElement = document.createElement('div');
-    botMessageElement.classList.add('message', 'bot');
-    botMessageElement.textContent = "... Please Wait ...";
-    botMessageWrapper.appendChild(botMessageElement);
-
-    const botProfilePic = document.createElement('img');
-    botProfilePic.classList.add('profile-pic');
-    botProfilePic.src = profilePic;
-    botMessageWrapper.insertBefore(botProfilePic, botNameHeader);
-
-    chatContainer.appendChild(botMessageWrapper);
-
-    // End new code testing.
-
-
-     
-      
-    const response = await fetch('/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chatMessages }),
-    });
-
-    const data = await response.json();
-    const botMessage = data.botMessage;
-
-    chatMessages.push(botMessage);
-
-    botMessageElement.textContent = botMessage.content;
-      
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-  });
-</script>
+    <script>
+        // Replace "support" and "risingtidegroup.net" with your actual email address and domain name
+        var email = "support" + "@" + "risingtidegroup.net";
+        document.getElementById("email").innerHTML = email;
+    </script>
 </body>
 </html>
-
