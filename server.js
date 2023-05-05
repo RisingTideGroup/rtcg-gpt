@@ -122,7 +122,7 @@ app.post('/chat', async (req, res) => {
 });
 
 app.get('/chat', function(req, res) {
-    res.sendFile(__dirname + 'public/chat.html');
+    res.sendFile(__dirname + '/public/chat.html');
 });
 
 const port = process.env.PORT || 3000;
