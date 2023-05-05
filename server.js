@@ -98,7 +98,9 @@ Name: ${botName}
   try {
     res.json({ initialMessages });
   } catch (error) {
-    console.error(error);
+    const statusCode = error.response?.status || 500;
+    const statusText = error.response?.statusText || 'Internal Server Error';
+    console.error(`Error ${statusCode}: ${statusText}`);
     res.status(500).send('An error occurred while initializing the chatbot.');
   }
 });
@@ -112,9 +114,15 @@ app.post('/chat', async (req, res) => {
     const botMessage = aiResponse.choices[0].message;
     res.json({ botMessage });
   } catch (error) {
-    console.error(error);
+    const statusCode = error.response?.status || 500;
+    const statusText = error.response?.statusText || 'Internal Server Error';
+    console.error(`Error ${statusCode}: ${statusText}`);
     res.status(500).send('An error occurred while processing the chat message.');
   }
+});
+
+app.get('/chat', function(req, res) {
+    res.sendFile(__dirname + '/chat.html');
 });
 
 const port = process.env.PORT || 3000;
