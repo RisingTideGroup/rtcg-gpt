@@ -241,7 +241,7 @@
     chatContainer.style.display = 'flex';
     chatForm.style.display = 'flex';
 
-    const initResponse = await fetch('/init', {
+    const initResponse = await fetch('/auth/init', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ botName }),
@@ -323,7 +323,7 @@
 
      
       
-    const response = await fetch('/chat', {
+    const response = await fetch('/auth/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ chatMessages }),
