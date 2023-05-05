@@ -51,7 +51,7 @@ async function invokeAIWebRequest(messages, model) {
 
 
 // Updated /init route
-app.post('/init', async (req, res) => {
+app.post('/auth/init', async (req, res) => {
   const botName = req.body.botName;
   const instruction = `You are required to build a prompt for ChatGPT to follow that will instruct it to behave in a context that makes sense for the name its been given.
 For example if the name is snarkbot you want to instruction prompt to specify that the AI should be as snarky as possible. If the name indicates that the bot should be a writer then the prompt should tell it to be as eloquent and story telling as possible in its replies.
@@ -106,7 +106,7 @@ Name: ${botName}
 });
 
 // Updated /chat route
-app.post('/chat', async (req, res) => {
+app.post('/auth/chat', async (req, res) => {
   const messages = req.body.chatMessages;
 
   try {
@@ -121,8 +121,8 @@ app.post('/chat', async (req, res) => {
   }
 });
 
-app.get('/chat', function(req, res) {
-    res.sendFile(__dirname + '/public/chat.html');
+app.get('/auth/chat', function(req, res) {
+    res.sendFile(__dirname + '/public/auth/chat.html');
 });
 
 const port = process.env.PORT || 3000;
