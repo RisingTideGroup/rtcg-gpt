@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 const OPENAI_API_KEY = process.env.API_KEY;
-const CHAT_MODEL = 'gpt-3.5-turbo';
+const CHAT_MODEL = process.env.GPT_MDOEL;
 const IMAGE_MODEL = 'DALL-E'
 const OPENAI_API_BASE_URL = 'https://api.openai.com/v1';
 
